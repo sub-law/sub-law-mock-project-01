@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->string('image_path');
             $table->string('category');
             $table->string('condition');
-            $table->integer('price');
+            $table->decimal('price', 10, 2);
 
             $table->timestamps();
 

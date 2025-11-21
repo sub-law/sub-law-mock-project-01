@@ -29,7 +29,7 @@ class ExhibitionRequest extends FormRequest
             'image_path' => ['required', 'image', 'mimes:jpeg,png'],
             'category' => ['required'],
             'condition' => ['required'],
-            'price' => ['required', 'numeric', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0', 'max:99999999'],
         ];
     }
 
@@ -47,6 +47,7 @@ class ExhibitionRequest extends FormRequest
             'price.required' => '商品価格を入力してください',
             'price.numeric' => '商品価格は数値で入力してください',
             'price.min' => '商品価格は0円以上で入力してください',
+            'price.max' => '商品価格は99999999円以下で入力してください',
         ];
     }
 }
