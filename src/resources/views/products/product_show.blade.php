@@ -19,6 +19,7 @@
 
         <div class="product-summary">
             <h1 class="product-title">{{ $product->name }}</h1>
+            <p class="product-brand">ブランド名</p>
             <p class="product-brand">{{ $product->brand }}</p>
             <p class="product-price">¥{{ number_format($product->price) }} <span class="tax-included">（税込）</span></p>
 
@@ -27,14 +28,14 @@
                 <div class="action-block">
                     @auth
                     <button class="like-button {{ $isFavorited ? 'liked' : '' }}" data-product-id="{{ $product->id }}">
-                        <img src="{{ asset($isFavorited ? 'images/star.on.png' : 'images/star.png') }}" alt="お気に入りボタン">
+                        <img src="{{ asset($isFavorited ? 'images/heart.on.png' : 'images/heart.png') }}" alt="お気に入りボタン">
                     </button>
                     <span class="action-count">{{ $product->favorites->count() }}</span>
                     @endauth
 
                     @guest
                     <a href="{{ route('login') }}" class="like-button">
-                        <img src="{{ asset('images/star.png') }}" alt="お気に入りボタン">
+                        <img src="{{ asset('images/heart.png') }}" alt="お気に入りボタン">
                     </a>
                     <span class="action-count">{{ $product->favorites->count() }}</span>
                     @endguest
@@ -170,11 +171,11 @@
                 .then(data => {
                     if (data.status === 'added') {
                         likeButton.classList.add('liked');
-                        starImg.src = "{{ asset('images/star.on.png') }}";
+                        starImg.src = "{{ asset('images/heart.on.png') }}";
                         actionCount.textContent = parseInt(actionCount.textContent) + 1;
                     } else if (data.status === 'removed') {
                         likeButton.classList.remove('liked');
-                        starImg.src = "{{ asset('images/star.png') }}";
+                        starImg.src = "{{ asset('images/heart.png') }}";
                         actionCount.textContent = parseInt(actionCount.textContent) - 1;
                     }
                 });

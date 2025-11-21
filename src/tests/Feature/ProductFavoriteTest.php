@@ -53,13 +53,13 @@ class ProductFavoriteTest extends TestCase
 
         $response = $this->get("/item/{$product->id}");
         $response->assertDontSee('like-button liked');
-        $response->assertSee('images/star.png');
+        $response->assertSee('images/heart.png');
 
         $this->post('/favorite/toggle', ['product_id' => $product->id]);
 
         $response = $this->get("/item/{$product->id}");
         $response->assertSee('like-button liked');
-        $response->assertSee('images/star.on.png');
+        $response->assertSee('images/heart.on.png');
     }
 
     public function test_再度いいねアイコンを押下することによって、いいねを解除することができる。()
