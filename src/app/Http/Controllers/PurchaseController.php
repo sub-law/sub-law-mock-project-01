@@ -70,7 +70,7 @@ class PurchaseController extends Controller
                     'price_data' => [
                         'currency' => 'jpy',
                         'product_data' => ['name' => $product->name],
-                        'unit_amount' => $product->price,
+                        'unit_amount' => (int) $product->price,
                     ],
                     'quantity' => 1,
                 ]],
