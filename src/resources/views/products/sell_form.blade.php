@@ -29,15 +29,15 @@
             <div class="form-message-title">商品の詳細</div>
             <div class="form-message-category">カテゴリー</div>
             <div class="category-tags">
-                @foreach(['ファッション','家電','インテリア','レディース','メンズ','コスメ','本','ゲーム','スポーツ','キッチン','ハンドメイド','アクセサリー','おもちゃ','ベビー・キッズ'] as $category)
+                @foreach ($categories as $category)
                 <label class="category-tag">
-                    <input type="checkbox" name="category[]" value="{{ $category }}"
-                        {{ collect(old('category'))->contains($category) ? 'checked' : '' }}>
-                    <span>{{ $category }}</span>
+                    <input type="checkbox" name="category_ids[]" value="{{ $category->id }}"
+                        {{ collect(old('category_ids'))->contains($category->id) ? 'checked' : '' }}>
+                    <span>{{ $category->name }}</span>
                 </label>
                 @endforeach
             </div>
-            @error('category')
+            @error('category_ids')
             <div class="form-error">{{ $message }}</div>
             @enderror
 
@@ -75,7 +75,9 @@
         <label class="form-label" for="price">販売価格</label>
         <div class="form-input-with-symbol">
             <span class="yen-symbol">￥</span>
-            <input type="number" id="price" name="price" class="form-input price-input" value="{{ old('price') }}">
+            <input type="number" id="price" name="price" class="form-input price-input"
+                value="{{ old('price') }}" min="0">
+
         </div>
         @error('price')
         <div class="form-error">{{ $message }}</div>

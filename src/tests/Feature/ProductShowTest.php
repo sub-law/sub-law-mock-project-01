@@ -8,10 +8,17 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Favorite;
 use App\Models\Comment;
+use App\Models\Category;
 
 class ProductShowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\CategoriesSeeder::class);
+    }
 
     public function test_必要な情報が表示される()
     {
@@ -28,11 +35,13 @@ class ProductShowTest extends TestCase
             'brand' => 'ノーブランド',
             'description' => 'それなりの品物',
             'image_path' => 'aaa.jpg',
-            'category' => 'ファッション',
             'condition' => '良好',
             'price' => 15000,
             'status' => 'available',
         ]);
+
+        $category = Category::where('name', 'ファッション')->first();
+        $showProduct->categories()->attach($category->id);
 
         Favorite::factory()->create([
             'user_id' => $favoriteUser->id,
@@ -58,9 +67,7 @@ class ProductShowTest extends TestCase
         $response->assertSee('ファッション');
         $response->assertSee('良好');
         $response->assertSee('¥15,000');
-        
         $response->assertSee('<span class="action-count">1</span>', false);
-        
         $response->assertSee('コメント（1）');
         $response->assertSee('コメント者');
         $response->assertSee('古着');
@@ -74,16 +81,17 @@ class ProductShowTest extends TestCase
 
         $showProduct = Product::factory()->create([
             'seller_id' => $seller->id,
-            'category' => 'ファッション,アクセサリー',
         ]);
-        
+
+        $categories = Category::whereIn('name', ['ファッション', 'アクセサリー'])->get();
+        $showProduct->categories()->sync($categories->pluck('id'));
+
         /** @var \App\Models\User $viewer */
 
         $this->actingAs($viewer);
         $response = $this->get("/item/{$showProduct->id}");
 
         $response->assertStatus(200);
-        $response->assertSee('ファッション');
-        $response->assertSee('アクセサリー');
+        $response->assertSee('ファッション', 'アクセサリー');
     }
 }

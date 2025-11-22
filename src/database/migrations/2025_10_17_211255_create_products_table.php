@@ -18,11 +18,10 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('seller_id');
             $table->unsignedBigInteger('buyer_id')->nullable();
             $table->string('name');
-            $table->string('brand')->nullable();;
+            $table->string('brand')->nullable();
             $table->string('status')->nullable();
             $table->text('description');
             $table->string('image_path');
-            $table->string('category');
             $table->string('condition');
             $table->decimal('price', 10, 2);
 

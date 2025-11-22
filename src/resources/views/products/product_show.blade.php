@@ -12,15 +12,19 @@
 
         <div class="product-image-area">
             <img src="{{ asset('storage/products/' . $product->image_path) }}" alt="商品画像" class="product-image">
-            @if ($product->is_sold)
+            @if ($product->status === 'sold')
             <div class="sold-label">Sold</div>
             @endif
+
         </div>
 
         <div class="product-summary">
             <h1 class="product-title">{{ $product->name }}</h1>
-            <p class="product-brand">ブランド名</p>
-            <p class="product-brand">{{ $product->brand }}</p>
+            <div class="product-brand-group">
+                <span class="info-label">ブランド名</span>
+                <span class="product-brand">{{ $product->brand ?: '指定なし' }}</span>
+            </div>
+
             <p class="product-price">¥{{ number_format($product->price) }} <span class="tax-included">（税込）</span></p>
 
             <div class="product-actions">
@@ -54,7 +58,7 @@
                 @if (Auth::id() === $product->seller_id)
                 <button class="seller-message-button">この商品の出品者はあなたです</button>
                 @else
-                @if (!$product->is_sold)
+                @if ($product->status !== 'sold')
                 <a href="{{ route('purchase', ['item_id' => $product->id]) }}" class="purchase-button">購入手続きへ</a>
                 @else
                 <button class="purchase-button disabled" disabled>ただいま品切れ</button>
@@ -63,7 +67,7 @@
                 @endauth
 
                 @guest
-                @if (!$product->is_sold)
+                @if ($product->status !== 'sold')
                 <a href="{{ route('login') }}" class="purchase-button">購入手続きへ</a>
                 @else
                 <button class="purchase-button disabled" disabled>ただいま品切れ</button>
@@ -71,7 +75,6 @@
                 @endguest
             </div>
             @endif
-
 
             <div class="product-description-area">
                 <h2 class="product-description-title">商品説明</h2>
@@ -85,8 +88,11 @@
                     <div class="product-category-group">
                         <span class="info-label">カテゴリー</span>
                         <div class="category-tags">
-                            <span class="category-tag">{{ $product->category }}</span>
+                            @foreach ($product->categories as $category)
+                            <span class="category-tag">{{ $category->name }}</span>
+                            @endforeach
                         </div>
+
                     </div>
 
                     <div class="product-condition-group">

@@ -12,6 +12,12 @@ class MyListIndexTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\CategoriesSeeder::class);
+    }
+
     public function test_いいねした商品だけが表示される()
     {
         $seller = User::factory()->create(['email_verified_at' => now()]);
@@ -50,7 +56,8 @@ class MyListIndexTest extends TestCase
 
         $product = Product::factory()->create([
             'seller_id' => $seller->id,
-            'buyer_id' => $buyer->id,          
+            'buyer_id' => $buyer->id,
+            'status' => 'sold',      
         ]);
 
         Favorite::factory()->create([

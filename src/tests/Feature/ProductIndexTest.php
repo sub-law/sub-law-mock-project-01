@@ -11,6 +11,12 @@ class ProductIndexTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(\Database\Seeders\CategoriesSeeder::class);
+    }
+
     public function test_全商品を取得できる()
     {
         User::factory()->create([
@@ -46,6 +52,7 @@ class ProductIndexTest extends TestCase
         Product::factory()->create([
             'seller_id' => $seller->id,
             'buyer_id' => $buyer->id,
+            'status' => 'sold',
         ]);
 
         $response = $this->get('/');

@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/profile_setup', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/sell', fn() => view('products.sell_form'))->name('sell.form');
+    Route::get('/sell', [ExhibitionController::class, 'create'])->name('sell.form');
     Route::post('/sell', [ExhibitionController::class, 'store'])->name('sell.store');
 
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'showpurchaseform'])->name('purchase');

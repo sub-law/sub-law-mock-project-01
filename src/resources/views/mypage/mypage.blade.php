@@ -30,7 +30,7 @@
         <a href="{{ route('product_show', ['item_id' => $product->id, 'from' => 'mypage']) }}" class="product-card">
             <div class="image-wrapper">
                 <img src="{{ asset('storage/products/' . $product->image_path) }}" alt="商品画像" class="product-image">
-                @if ($product->is_sold)
+                @if ($product->status === 'sold')
                 <div class="sold-label">Sold</div>
                 @endif
             </div>
@@ -44,7 +44,7 @@
         <a href="{{ route('product_show', ['item_id' => $product->id, 'from' => 'mypage']) }}" class="product-card">
             <div class="image-wrapper">
                 <img src="{{ asset('storage/products/' . $product->image_path) }}" alt="商品画像" class="product-image">
-                @if ($product->is_sold)
+                @if ($product->status === 'sold')
                 <div class="sold-label">Sold</div>
                 @endif
             </div>

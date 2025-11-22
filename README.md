@@ -138,7 +138,7 @@ nginx: 1.21.1
 MailHog
 
 ER図
-![alt text](模擬案件1ER図.png)
+![alt text](ER図模擬案件1.png)
 
 ## 補足（環境関連）
 - MailHogはローカル開発用のSMTPキャプチャツールです。メールは実際には送信されません。

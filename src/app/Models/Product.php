@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Purchase;
 use App\Models\Comment;
 use App\Models\Favorite;
+use App\Models\Category;
 
 class Product extends Model
 {
@@ -21,7 +22,6 @@ class Product extends Model
         'brand',
         'description',
         'image_path',
-        'category',
         'condition',
         'price',
     ];
@@ -51,6 +51,11 @@ class Product extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product');
+    }
+    
     public function getIsSoldAttribute()
     {
         return !is_null($this->buyer_id);
