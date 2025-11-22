@@ -16,7 +16,11 @@
 
         <div class="form-image-area">
             <div class="form-image-wrapper">
-                <div class="form-image-placeholder" id="imagePreview"></div>
+                <div class="form-image-placeholder" id="imagePreview">
+                    <img src="{{ asset('storage/profile_images/' . ($user->profile_image ?? 'no.image.png')) }}"
+                        alt="プロフィール画像"
+                        class="form-image-preview">
+                </div>
                 <label for="profile_image" class="form-image-button">画像を選択する</label>
                 <input type="file" id="profile_image" name="profile_image" class="form-image-input" accept="image/*" hidden>
                 @error('profile_image')
